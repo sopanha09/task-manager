@@ -20,6 +20,15 @@ class DashboardController extends Controller
         $tasks = Task::whereHas('list', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
+
+        $recentActivities = Task::with('list')
+        ->whereHas('list', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->orderBy('updated_at', 'desc')
+        ->limit(3)
+        ->get();
+
         $stats = [
             'totalLists' => $lists->count(),
             'totalTasks' => $tasks->count(),
@@ -28,6 +37,7 @@ class DashboardController extends Controller
         ];
         return Inertia::render('dashboard', [
             'stats' => $stats,
+            'recentActivities' => $recentActivities,
             'lists' => $lists,
             'tasks' => $tasks,
           

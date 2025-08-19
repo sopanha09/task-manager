@@ -217,6 +217,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                     setIsOpen(true);
                                 }}
                                 disabled={processing}
+                                className="bg-lime-500 text-white duration-300 hover:bg-lime-500 hover:shadow-md"
                             >
                                 <Plus className="h-4 w-4" />
                                 Add Task
@@ -234,7 +235,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                         id="title"
                                         value={data.title}
                                         onChange={(e) => setData('title', e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                         required
                                     />
                                 </div>
@@ -246,7 +247,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                         id="description"
                                         value={data.description}
                                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData('description', e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1">
@@ -258,7 +259,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                         id="due_date"
                                         value={data.due_date}
                                         onChange={(e) => setData('due_date', e.target.value)}
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-1">
@@ -268,7 +269,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                     <Select value={data.list_id} onValueChange={(value) => setData('list_id', value)}>
                                         <SelectTrigger
                                             id="list_id"
-                                            className="mt-1 flex w-full items-center justify-between rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                            className="mt-1 flex w-full items-center justify-between rounded-md border-gray-300 shadow-sm"
                                         >
                                             <SelectValue placeholder="Select a list" />
                                         </SelectTrigger>
@@ -287,7 +288,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                         id="is_completed"
                                         checked={data.is_completed}
                                         onChange={(e) => setData('is_completed', e.target.checked)}
-                                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        className="h-4 w-4 rounded border-gray-300 text-blue-600"
                                     />
                                     <Label htmlFor="is_completed" className="ml-2 block text-sm font-medium">
                                         Completed
@@ -314,7 +315,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                             placeholder="Search tasks..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="focus:ring-opacity-50 w-full rounded-md border border-gray-300 py-2 pr-3 pl-10 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            className="w-full rounded-md border border-gray-300 py-2 pr-3 pl-10 shadow-sm"
                         />
                     </form>
 
@@ -333,7 +334,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                 <div className="rounded-md border">
                     <div className="relative w-full overflow-auto">
                         <table className="w-full caption-bottom text-sm">
-                            <thead className="rounded-t-md bg-gray-50">
+                            <thead className="border-b">
                                 <tr>
                                     <th className="px-4 py-2 text-left">Title</th>
                                     <th className="px-4 py-2 text-left">Description</th>
@@ -345,9 +346,17 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                             </thead>
                             <tbody>
                                 {tasks.data.map((task) => (
-                                    <tr key={task.id} className="border-b hover:bg-gray-50">
-                                        <td className="px-4 py-2">{task.title}</td>
-                                        <td className="px-4 py-2">{task.description || 'N/A'}</td>
+                                    <tr key={task.id} className="border-b hover:bg-accent">
+                                        <td className="px-4 py-2" title={task.title}>
+                                            {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
+                                        </td>
+                                        <td className="px-4 py-2" title={task.description || 'N/A'}>
+                                            {task.description
+                                                ? task.description.length > 50
+                                                    ? `${task.description.slice(0, 50)}...`
+                                                    : task.description
+                                                : 'N/A'}
+                                        </td>
                                         <td className="flex flex-row items-center gap-2 px-4 py-2">
                                             <List className="h-3 w-3" />
                                             {task.list.title}
@@ -366,24 +375,17 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                         </td>
                                         <td className="px-4 py-2">
                                             {task.is_completed ? (
-                                                <span className="text-green-600">Completed</span>
+                                                <span className="text-lime-500">Completed</span>
                                             ) : (
-                                                <span className="text-red-600">Pending</span>
+                                                <span className="text-yellow-500">Pending</span>
                                             )}
                                         </td>
                                         <td className="flex justify-end space-x-4 px-4 py-2">
-                                            <Pencil
-                                                className="h-4 w-4 cursor-pointer hover:text-gray-700"
-                                                onClick={() => handleEdit(task)}
-                                                aria-label="Edit Task"
-                                            />
+                                            <Pencil className="h-4 w-4 cursor-pointer" onClick={() => handleEdit(task)} aria-label="Edit Task" />
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <span>
-                                                        <Trash2
-                                                            className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-700"
-                                                            aria-label="Delete Task"
-                                                        />
+                                                        <Trash2 className="h-4 w-4 cursor-pointer text-destructive" aria-label="Delete Task" />
                                                     </span>
                                                 </DialogTrigger>
                                                 <DialogContent>

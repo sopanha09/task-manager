@@ -112,7 +112,7 @@ export default function ListsIndex({ lists, flash }: Props) {
             <div className="flex flex-1 flex-col gap-4 rounded-xl p-4">
                 {showToast && (
                     <div
-                        className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg p-4 shadow-lg ${toastType === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white animate-in fade-in slide-in-from-top-5`}
+                        className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg p-4 shadow-lg ${toastType === 'success' ? 'bg-green-500' : 'bg-danger'} text-white animate-in fade-in slide-in-from-top-5`}
                     >
                         {toastType === 'success' ? <CheckCircle className="h-5 w-5" /> : <XCircle className="h-5 w-5" />}
                         <span>{toastMessage}</span>
@@ -135,6 +135,7 @@ export default function ListsIndex({ lists, flash }: Props) {
                                     });
                                     setIsOpen(true);
                                 }}
+                                className="bg-lime-500 text-white duration-300 hover:bg-lime-500 hover:shadow-md"
                             >
                                 <Plus className="h-4 w-4" />
                                 New List
@@ -177,22 +178,22 @@ export default function ListsIndex({ lists, flash }: Props) {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
                     {lists.map((list) => (
-                        <div key={list.id} className="box-border flex w-full max-w-full flex-col rounded-lg border p-4 shadow-sm">
+                        <div key={list.id} className="flex w-full max-w-full flex-col rounded-lg border border-gray-300 p-4 shadow-sm">
                             <div className="w-full">
                                 <div className="mb-4 flex flex-row items-center justify-between gap-4">
-                                    <h3 className="mb-2 line-clamp-1 text-lg font-semibold break-words">{list.title}</h3>
+                                    <h3 className="mb-2 line-clamp-1 text-lg font-semibold">{list.title}</h3>
                                     <div className="flex flex-row items-center gap-3">
-                                        <Pencil className="h-4 w-4 cursor-pointer hover:text-gray-700" onClick={() => handleEdit(list)} />
+                                        <Pencil className="h-4 w-4 cursor-pointer" onClick={() => handleEdit(list)} />
                                         <Dialog>
                                             <DialogTrigger asChild>
-                                                <Trash2 className="h-4 w-4 cursor-pointer text-red-500 hover:text-red-700" />
+                                                <Trash2 className="h-4 w-4 cursor-pointer text-destructive" />
                                             </DialogTrigger>
                                             <DialogContent>
                                                 <div className="flex flex-col gap-4">
                                                     <h3 className="text-lg font-semibold">Delete List</h3>
                                                     <p>Are you sure you want to delete this list? This action cannot be undone.</p>
                                                     <div className="flex justify-end gap-2">
-                                                        <Button variant="destructive" onClick={() => handleDelete(list.id)}>
+                                                        <Button className="bg-danger" variant="destructive" onClick={() => handleDelete(list.id)}>
                                                             Delete
                                                         </Button>
                                                     </div>
