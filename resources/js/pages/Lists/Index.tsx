@@ -6,6 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Input } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
+import { DialogTitle } from '@radix-ui/react-dialog';
 import { CheckCircle, Pencil, Plus, Trash2, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -119,7 +120,10 @@ export default function ListsIndex({ lists, flash }: Props) {
                 )}
 
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Lists</h1>
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight">Lists</h1>
+                        <p className="text-muted-foreground">Manage your task lists</p>
+                    </div>
                     <Dialog open={isOpen} onOpenChange={setIsOpen}>
                         <DialogTrigger asChild>
                             <Button
@@ -132,14 +136,14 @@ export default function ListsIndex({ lists, flash }: Props) {
                                     setIsOpen(true);
                                 }}
                             >
-                                <Plus className="mr-2 h-4 w-4" />
+                                <Plus className="h-4 w-4" />
                                 New List
                             </Button>
                         </DialogTrigger>
                         {isOpen && (
                             <DialogContent>
                                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                                    <h2 className="text-lg font-semibold">{editingList ? 'Edit List' : 'Create New List'}</h2>
+                                    <DialogTitle className="text-xl font-medium">{editingList ? 'Edit List' : 'Create New List'}</DialogTitle>
                                     <div className="flex flex-col gap-1">
                                         <Label htmlFor="title">Title</Label>
                                         <Input
