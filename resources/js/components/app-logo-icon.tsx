@@ -6,13 +6,13 @@ export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="0 0 508 508"
-            xml:space="preserve"
+            xmlSpace="preserve"
             fill="#000000"
         >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
                 <rect x="0" y="0" width="508" height="508" fill="#84cc16" rx="120" ry="120"></rect>
                 <path

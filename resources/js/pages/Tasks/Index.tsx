@@ -35,6 +35,11 @@ interface Props {
         total: number;
         from: number;
         to: number;
+        prev_page_url?: string | null;
+        next_page_url?: string | null;
+        per_page: number;
+        last_page_url?: string | null;
+        first_page_url?: string | null;
     };
     lists: List[];
     filter: {
@@ -170,19 +175,34 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
         );
     };
 
-    const handlePageChange = (page: number) => {
-        router.get(
-            route('tasks.index'),
-            {
-                page,
-                search: searchTerm,
-                filter: completionFilter,
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-            },
-        );
+    const handlePageChange = (pageOrUrl: number | string | null) => {
+        if (!pageOrUrl) return;
+
+        if (typeof pageOrUrl === 'number') {
+            if (pageOrUrl < 1 || pageOrUrl > tasks.last_page) return;
+
+            router.get(
+                route('tasks.index'),
+                {
+                    page: pageOrUrl,
+                    search: searchTerm,
+                    filter: completionFilter,
+                },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                },
+            );
+        } else if (typeof pageOrUrl === 'string') {
+            router.get(
+                pageOrUrl,
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                },
+            );
+        }
     };
 
     return (
@@ -357,7 +377,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                                     : task.description
                                                 : 'N/A'}
                                         </td>
-                                        <td className="flex flex-row items-center gap-2 px-4 py-2">
+                                        <td className="flex flex-row items-center gap-2 px-4 py-2 whitespace-nowrap">
                                             <List className="h-3 w-3" />
                                             {task.list.title}
                                         </td>
@@ -422,23 +442,13 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                     </p>
                     {/* Pagination */}
                     <div className="flex items-center justify-between gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handlePageChange(tasks.current_page - 1)}
-                            disabled={tasks.current_page === 1}
-                        >
+                        <Button variant="outline" size="sm" onClick={() => handlePageChange(tasks.prev_page_url)} disabled={!tasks.prev_page_url}>
                             <ChevronLeft className="mr-1 h-4 w-4" />
                         </Button>
                         <span className="text-xs text-gray-600">
                             Page {tasks.current_page} of {tasks.last_page}
                         </span>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handlePageChange(tasks.current_page + 1)}
-                            disabled={tasks.current_page === tasks.last_page}
-                        >
+                        <Button variant="outline" size="sm" onClick={() => handlePageChange(tasks.next_page_url)} disabled={!tasks.next_page_url}>
                             <ChevronRight className="ml-1 h-4 w-4" />
                         </Button>
                     </div>
