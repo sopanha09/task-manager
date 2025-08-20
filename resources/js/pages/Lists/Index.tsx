@@ -176,7 +176,7 @@ export default function ListsIndex({ lists, flash }: Props) {
                     </Dialog>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {lists.map((list) => (
                         <div key={list.id} className="flex w-full max-w-full flex-col rounded-lg border border-gray-300 p-4 shadow-sm">
                             <div className="w-full">
