@@ -166,7 +166,7 @@ export default function ListsIndex({ lists, flash }: Props) {
                                         />
                                     </div>
                                     <div className="flex justify-end gap-2">
-                                        <Button type="submit" disabled={processing}>
+                                        <Button className="bg-lime-500 hover:bg-lime-500" type="submit" disabled={processing}>
                                             {editingList ? 'Update' : 'Create'}
                                         </Button>
                                     </div>

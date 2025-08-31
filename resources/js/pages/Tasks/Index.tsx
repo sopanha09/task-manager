@@ -315,7 +315,7 @@ export default function TasksIndex({ tasks, lists, filter = { search: '', filter
                                     </Label>
                                 </div>
                                 <div className="flex justify-end">
-                                    <Button type="submit" disabled={processing}>
+                                    <Button className="bg-lime-500 hover:bg-lime-500" type="submit" disabled={processing}>
                                         {editingTask ? 'Update Task' : 'Create Task'}
                                     </Button>
                                 </div>
